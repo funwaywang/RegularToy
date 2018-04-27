@@ -1,0 +1,272 @@
+﻿<Window x:Class="RegularToy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RegularToy"
+        mc:Ignorable="d" Icon="app.ico"
+        Title="RegularToy 3.0" Height="600" Width="800" MinWidth="400" MinHeight="300">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="4 2"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="1 2"/>
+            <Setter Property="Padding" Value="1 2"/>
+        </Style>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="8 4"/>
+            <Setter Property="Margin" Value="1"/>
+        </Style>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="local:MainWindow.SetOptionCommand" Executed="SetOptionCommand_Executed"/>
+        <CommandBinding Command="local:MainWindow.AddFavoriteCommand" CanExecute="AddFavoriteCommand_CanExecute" Executed="AddFavoriteCommand_Executed"/>
+        <CommandBinding Command="local:MainWindow.DeleteFavoriteCommand" CanExecute="DeleteFavoriteCommand_CanExecute" Executed="DeleteFavoriteCommand_Executed"/>
+        <CommandBinding Command="local:MainWindow.UseFavoriteCommand" CanExecute="UseFavoriteCommand_CanExecute" Executed="UseFavoriteCommand_Executed"/>
+    </Window.CommandBindings>
+    <Grid Background="#E0E0E0" Grid.IsSharedSizeScope="True" SnapsToDevicePixels="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*" MinHeight="100"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="6*" MinHeight="100"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Text</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Name="TxbStr" FontSize="12" AcceptsReturn="True"></TextBox>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" VerticalAlignment="Center">Regular</TextBlock>
+                <TextBox Grid.Column="1" Name="TxbRegular" FontSize="18"/>
+                <Button Grid.Column="2" Padding="4 2" Margin="1 2 0 2" Command="local:MainWindow.AddFavoriteCommand">
+                    <Image Source="/Resources/favorite.png" Width="18" Height="18"/>
+                </Button>
+                <Button Grid.Column="3" Padding="4 2" Margin="1 2 0 2" Click="BtnManageFavorites_Click">
+                    <Image Source="/Resources/more.png" Width="18" Height="18"/>
+                </Button>
+            </Grid>
+            
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="1" Style="{StaticResource ButtonStyle}" Background="#A5D6A7" Click="BtnTest_Click">
+                    <StackPanel Orientation="Horizontal" >
+                        <Image Source="/Resources/test.png"/>
+                        <TextBlock FontWeight="Bold">Test</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Grid.Column="2" Style="{StaticResource ButtonStyle}" Click="BtnGetMatches_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/get_matches.png"/>
+                        <TextBlock>Get Matches</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Grid.Column="3" Style="{StaticResource ButtonStyle}" Click="BtnOptions_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/options.png"/>
+                        <TextBlock>Options</TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>        
+
+        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" MinWidth="100"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="6*" MinWidth="100"/>
+            </Grid.ColumnDefinitions>
+
+            <TreeView Grid.Column="0" BorderThickness="0"
+                      ItemsSource="{Binding Matches, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                <TreeView.Resources>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#EEEEEE"/>
+                                <Setter Property="Foreground" Value="#212121"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TreeView.Resources>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Items}">
+                        <Grid Margin="1" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="{Binding Type, Converter={StaticResource MatchToBrushConverter}}" CornerRadius="2" Width="20" Height="20">
+                                <TextBlock Foreground="#FAFAFA" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Type}"/>                                
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="{Binding Path=Value}" VerticalAlignment="Center" Padding="4"/>
+                        </Grid>
+                    </HierarchicalDataTemplate>                    
+                </TreeView.ItemTemplate>
+            </TreeView>
+
+            <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+            <ScrollViewer Grid.Column="2">
+                <ItemsControl Name="ManualBox" Background="#F5F5F5"
+                          ItemsSource="{Binding Source={x:Static local:Manual.Items}}" Grid.IsSharedSizeScope="True">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="4 8">
+                                <TextBlock FontWeight="Bold" FontSize="18" Foreground="#0D47A1" Margin="8 2" Text="{Binding Syntax}"/>
+                                <TextBlock FontSize="12" Padding="4 2" Foreground="#616161" TextWrapping="Wrap" Text="{Binding Description}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+        <Popup Name="PopupOptions" StaysOpen="False" Placement="Center" AllowsTransparency="True"
+               PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
+            <Border BorderThickness="1" MinHeight="150" SnapsToDevicePixels="True" Margin="0 0 5 5" CornerRadius="2" BorderBrush="#616161" Background="#E0E0E0">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" ShadowDepth="2" Opacity="0.4"/>
+                </Border.Effect>
+                <ItemsControl Name="LstOptions" Margin="8">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Value}" VerticalAlignment="Center" Margin="4" Content="{Binding Name}"
+                                      Command="local:MainWindow.SetOptionCommand" CommandParameter="{Binding Option}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </Popup>
+
+        <Popup Name="PopupFavorite" StaysOpen="False" Placement="Center" AllowsTransparency="True"
+               PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
+            <Border BorderThickness="1" SnapsToDevicePixels="True" Margin="0 0 5 5" CornerRadius="2" BorderBrush="#616161" Background="#E0E0E0">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" ShadowDepth="2" Opacity="0.4"/>
+                </Border.Effect>
+                <StackPanel Orientation="Vertical" Margin="8">
+                    <Border>
+                        <TextBlock FontWeight="Bold" FontSize="16">Add To My Favorite</TextBlock>                        
+                    </Border>
+                    <Grid Margin="0 8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" MinWidth="200"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0">Name</TextBlock>
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0">Regular</TextBlock>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Regular, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0">Description</TextBlock>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, Mode=TwoWay}"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource ButtonStyle}" MinWidth="80" Click="BtnAddFavorite_Click">OK</Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+        <Popup Name="PopupFavorites" StaysOpen="True" Placement="Center" AllowsTransparency="True"
+               PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
+            <Border BorderThickness="1" MinHeight="150" SnapsToDevicePixels="True" Margin="0 0 5 5" CornerRadius="2" BorderBrush="#616161" Background="#E0E0E0">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" ShadowDepth="2" Opacity="0.4"/>
+                </Border.Effect>
+                <StackPanel Orientation="Vertical" Margin="8" MaxWidth="600">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                            
+                        <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center">My Favorites</TextBlock>
+                        <Button Grid.Column="1" Style="{StaticResource ButtonStyle}" Click="BtnCloseFavorites_Click">
+                            <Image Source="/Resources/close.png"/>
+                        </Button>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Margin="0 8">
+                        <Button Style="{StaticResource ButtonStyle}" Command="local:MainWindow.DeleteFavoriteCommand">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/delete.png"/>
+                                <TextBlock>Delete</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource ButtonStyle}" Command="local:MainWindow.UseFavoriteCommand">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/check.png"/>
+                                <TextBlock>Use It!</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <ListView Name="LsvFavorites" MinWidth="300" MinHeight="200"
+                              ItemsSource="{Binding Source={x:Static local:Favorites.List}}">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Name" Width="120"
+                                                    DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Header="Regular" Width="200"
+                                                    DisplayMemberBinding="{Binding Regular}"/>
+                                    <GridViewColumn Header="Description" Width="120"
+                                                    DisplayMemberBinding="{Binding Description}"/>
+                                </GridView.Columns>                                    
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</Window>

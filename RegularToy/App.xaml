@@ -1,0 +1,16 @@
+﻿<Application x:Class="RegularToy.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:RegularToy"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+            </ResourceDictionary.MergedDictionaries>
+            
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <local:MatchToBrushConverter x:Key="MatchToBrushConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

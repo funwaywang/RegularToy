@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<manual reference="https://msdn.microsoft.com/en-us/library/az24scfc(v=vs.110).aspx">
+  <category name="Character Escapes">
+    <description>
+      The backslash character (\) in a regular expression indicates that the character that follows it either is a special character (as shown in the following table), 
+      or should be interpreted literally. For more information, see [Character Escapes in Regular Expressions](https://msdn.microsoft.com/en-us/library/4edbef7e(v=vs.110).aspx).
+    </description>
+    <item>
+      <syntax>\a</syntax>
+      <description>Matches a bell character, \u0007.</description>
+      <example>
+        <pattern>\a</pattern>
+        <matches>"\u0007" in "Error!" + '\u0007'</matches>
+      </example>
+    </item>
+  </category>
+</manual>
