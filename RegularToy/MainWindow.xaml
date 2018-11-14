@@ -73,7 +73,7 @@
                     <Image Source="/Resources/more.png" Width="18" Height="18"/>
                 </Button>
             </Grid>
-            
+
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
@@ -101,7 +101,7 @@
                     </StackPanel>
                 </Button>
             </Grid>
-        </Grid>        
+        </Grid>
 
         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
@@ -133,12 +133,18 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Background="{Binding Type, Converter={StaticResource MatchToBrushConverter}}" CornerRadius="2" Width="20" Height="20">
-                                <TextBlock Foreground="#FAFAFA" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Type}"/>                                
+                            <Border Grid.Column="0" Background="{Binding Type, Converter={StaticResource MatchToBrushConverter}}" CornerRadius="2" Height="20">
+                                <TextBlock Foreground="#FAFAFA" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Consolas" Margin="4,0">
+                                    <Run FontWeight="Bold" Text="{Binding Type, Mode=OneWay}"/>
+                                    <Run FontSize="8" Text="{Binding Path=Index, Mode=OneWay}"/>
+                                </TextBlock>
                             </Border>
-                            <TextBlock Grid.Column="1" Text="{Binding Path=Value}" VerticalAlignment="Center" Padding="4"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Path=Value, Mode=OneWay}" VerticalAlignment="Center" Padding="4" FontFamily="Consolas">
+                                    <Run Text="{Binding Path=Value, Mode=OneWay}"/>
+                                    <Run FontSize="10" Foreground="#666666" Text="{Binding Path=Value.Length, Mode=OneWay}"/>
+                            </TextBlock>
                         </Grid>
-                    </HierarchicalDataTemplate>                    
+                    </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
 
@@ -189,7 +195,7 @@
                 </Border.Effect>
                 <StackPanel Orientation="Vertical" Margin="8">
                     <Border>
-                        <TextBlock FontWeight="Bold" FontSize="16">Add To My Favorite</TextBlock>                        
+                        <TextBlock FontWeight="Bold" FontSize="16">Add To My Favorite</TextBlock>
                     </Border>
                     <Grid Margin="0 8">
                         <Grid.ColumnDefinitions>
@@ -230,7 +236,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                            
+
                         <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center">My Favorites</TextBlock>
                         <Button Grid.Column="1" Style="{StaticResource ButtonStyle}" Click="BtnCloseFavorites_Click">
                             <Image Source="/Resources/close.png"/>
@@ -261,7 +267,7 @@
                                                     DisplayMemberBinding="{Binding Regular}"/>
                                     <GridViewColumn Header="Description" Width="120"
                                                     DisplayMemberBinding="{Binding Description}"/>
-                                </GridView.Columns>                                    
+                                </GridView.Columns>
                             </GridView>
                         </ListView.View>
                     </ListView>
