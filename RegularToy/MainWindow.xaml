@@ -139,9 +139,9 @@
                                     <Run FontSize="8" Text="{Binding Path=Index, Mode=OneWay}"/>
                                 </TextBlock>
                             </Border>
-                            <TextBlock Grid.Column="1" Text="{Binding Path=Value, Mode=OneWay}" VerticalAlignment="Center" Padding="4" FontFamily="Consolas">
-                                    <Run Text="{Binding Path=Value, Mode=OneWay}"/>
-                                    <Run FontSize="10" Foreground="#666666" Text="{Binding Path=Value.Length, Mode=OneWay}"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Padding="4" FontFamily="Consolas">
+                                <Run Text="{Binding Path=Value, Mode=OneWay}" Background="#3999"/>
+                                <Run FontSize="10" Foreground="#666" Text="{Binding Path=Value.Length, Mode=OneWay}"/>
                             </TextBlock>
                         </Grid>
                     </HierarchicalDataTemplate>
